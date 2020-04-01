@@ -8,6 +8,7 @@
 #' @export
 #'
 #' @importFrom uuid UUIDgenerate
+#' @importFrom tools file_ext
 blind <- function(destination = NULL, input = NULL){
 
   filesep = .Platform$file.sep
