@@ -1,0 +1,13 @@
+Package: blinds
+Type: Package
+Title: File Blinder for Manual Analysis Tasks
+Version: 0.1.0
+Authors@R: person("Fiona", "Love", email = "fiona.love@cantab.net",
+  role = c("aut", "cre"), comment = c(ORCID = "0000-0002-7805-5234"))
+Description: Functions to renames files for blinded analysis, and restore original names when finished.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports:
+  tools,
+  uuid
