@@ -1,12 +1,13 @@
-#anonymise and combine multiple folders of images for blind analysis
-#currently works on Windows only
 
-if (!require("uuid")) install.packages("uuid")
-library(uuid)
-if (!require("tools")) install.packages("tools")
-library(tools)
-
-
+#' Copy or rename files with cryptic names to facilitate blinded manual analysis.
+#'
+#' @param destination If files are to be copied, the destination folder where the files and key will be saved.
+#' If this is not provided, the user will be prompted for a directory path.
+#' @param input A vector of directory paths specifying where the files are located.
+#'
+#' @export
+#'
+#' @importFrom uuid UUIDgenerate
 blind <- function(destination = NULL, input = NULL){
 
   filesep = .Platform$file.sep

@@ -11,3 +11,4 @@ LazyData: true
 Imports:
   tools,
   uuid
+RoxygenNote: 7.0.2
