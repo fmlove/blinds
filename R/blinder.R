@@ -60,6 +60,12 @@ blind <- function(destination = NULL, input = NULL){
   write.csv(files.df, file = paste(destination, 'key.csv', sep = filesep)) #TODO - account fotr folder with existing key.csv - automatc increment and argument to specify
 }
 
+
+
+#' Restore original file names.
+#'
+#' @param target The directory containing blinded files to restore.
+#'
 #' @export
 unblind <- function(target = NULL){
 
