@@ -60,6 +60,7 @@ blind <- function(destination = NULL, input = NULL){
   write.csv(files.df, file = paste(destination, 'key.csv', sep = filesep)) #TODO - account fotr folder with existing key.csv - automatc increment and argument to specify
 }
 
+#' @export
 unblind <- function(target = NULL){
 
   filesep = .Platform$file.sep
