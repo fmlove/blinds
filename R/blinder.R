@@ -4,12 +4,14 @@
 #' @param destination If files are to be copied, the destination folder where the files and key will be saved.
 #' If this is not provided, the user will be prompted for a directory.
 #' @param input A vector of directory paths specifying where the files are located.
+#' @param key.name Name of the output CSV file containing the key of original and cryptic names.  Defaults to \code{key.csv}.
+#' @param key.dir Directory where the CSV key will be saved.  If not provided, the key will be saved in the same directory as the blinded files.
 #'
 #' @export
 #'
 #' @importFrom uuid UUIDgenerate
 #' @importFrom tools file_ext
-blind <- function(destination = NULL, input = NULL){
+blind <- function(destination = NULL, input = NULL, key.name = "key.csv", key.dir = NULL){
 
   filesep = .Platform$file.sep
 
@@ -44,6 +46,8 @@ blind <- function(destination = NULL, input = NULL){
     dirs = input
   }
 
+  if(missing(key.dir)){ key.dir = destination }
+
 
   files = unlist(lapply(dirs, function(d){ list.files(d) }))
 
@@ -57,7 +61,7 @@ blind <- function(destination = NULL, input = NULL){
 
 
   sapply(1:nrow(files.df), function(i){ file.copy(from = files.df$old_path[i], to = files.df$new_path[i]) })
-  write.csv(files.df, file = paste(destination, 'key.csv', sep = filesep)) #TODO - account fotr folder with existing key.csv - automatc increment and argument to specify
+  write.csv(files.df, file = paste(key.dir, key.name, sep = filesep)) #TODO - account for folder with existing key.csv - automatc increment and argument to specify
 }
 
 
