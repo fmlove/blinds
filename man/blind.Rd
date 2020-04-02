@@ -8,7 +8,7 @@ blind(destination = NULL, input = NULL)
 }
 \arguments{
 \item{destination}{If files are to be copied, the destination folder where the files and key will be saved.
-If this is not provided, the user will be prompted for a directory path.}
+If this is not provided, the user will be prompted for a directory.}
 
 \item{input}{A vector of directory paths specifying where the files are located.}
 }

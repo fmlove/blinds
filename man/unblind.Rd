@@ -7,7 +7,7 @@
 unblind(target = NULL)
 }
 \arguments{
-\item{target}{The directory containing blinded files to restore.}
+\item{target}{The directory containing blinded files to restore.  If this is not provided, the user will be prompted for a directory.}
 }
 \description{
 Restore original file names.
