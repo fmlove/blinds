@@ -2,7 +2,7 @@
 #' Copy or rename files with cryptic names to facilitate blinded manual analysis.
 #'
 #' @param destination If files are to be copied, the destination folder where the files and key will be saved.
-#' If this is not provided, the user will be prompted for a directory path.
+#' If this is not provided, the user will be prompted for a directory.
 #' @param input A vector of directory paths specifying where the files are located.
 #'
 #' @export
@@ -64,7 +64,7 @@ blind <- function(destination = NULL, input = NULL){
 
 #' Restore original file names.
 #'
-#' @param target The directory containing blinded files to restore.
+#' @param target The directory containing blinded files to restore.  If this is not provided, the user will be prompted for a directory.
 #'
 #' @export
 unblind <- function(target = NULL){
