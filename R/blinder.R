@@ -81,6 +81,8 @@ blind <- function(destination = NULL, input = NULL, key.name = "key.csv", key.di
       }
     }
 
+    key.new = paste0(key.new, ".csv")
+
     write.csv(files.df, file = paste(key.dir, key.new, sep = filesep))
     warning(paste0("The file ", key.name, " already exists.  Key saved as ", key.new))
   }
