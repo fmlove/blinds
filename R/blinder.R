@@ -65,7 +65,7 @@ blind <- function(destination = NULL, input = NULL, key.name = "key.csv", key.di
   sapply(1:nrow(files.df), function(i){ file.copy(from = files.df$old_path[i], to = files.df$new_path[i]) })
 
   #saving key file
-  if(file.exists(paste(key.dir, key.name, sep = filesep))){
+  if(file.exists(paste(key.dir, key.name, sep = filesep))){#NB - I don't think this is even possible as long as the whole directory is being blinded at once, but keeping for later
     base = sub("\\.(csv|CSV)", "", key.name)#start with base name
 
     clash = TRUE
