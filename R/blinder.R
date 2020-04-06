@@ -49,6 +49,8 @@ blind <- function(destination = NULL, input = NULL, key.name = "key.csv", key.di
   if(missing(key.dir)){ key.dir = destination }
 
 
+
+  #generating UUIDs and assembling key
   files = unlist(lapply(dirs, function(d){ list.files(d) }))
 
   files.df = data.frame(original = files)
@@ -59,9 +61,32 @@ blind <- function(destination = NULL, input = NULL, key.name = "key.csv", key.di
   files.df$old_path = paste(files.df$dir, files.df$original, sep = filesep)
   files.df$new_path = paste(destination, files.df$new, sep = filesep)
 
-
+  #file handling
   sapply(1:nrow(files.df), function(i){ file.copy(from = files.df$old_path[i], to = files.df$new_path[i]) })
-  write.csv(files.df, file = paste(key.dir, key.name, sep = filesep)) #TODO - account for folder with existing key.csv - automatc increment and argument to specify
+
+  #saving key file
+  if(file.exists(paste(key.dir, key.name, sep = filesep))){
+    base = sub("\\.(csv|CSV)", "", key.name)#start with base name
+
+    clash = TRUE
+    suffix = 1
+
+    while(clash == TRUE){
+      key.new = paste(base, suffix, sep = "_")
+      if(file.exists(paste(key.dir, key.new, sep = filesep))){
+        suffix = suffix + 1
+      }
+      else{
+        clash = FALSE
+      }
+    }
+
+    write.csv(files.df, file = paste(key.dir, key.new, sep = filesep))
+    warning(paste0("The file ", key.name, " already exists.  Key saved as ", key.new))
+  }
+  else{ write.csv(files.df, file = paste(key.dir, key.name, sep = filesep)) }
+
+
 }
 
 
