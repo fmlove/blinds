@@ -64,29 +64,7 @@ blind <- function(destination = NULL, input = NULL, key.name = "key.csv", key.di
   #file handling
   sapply(1:nrow(files.df), function(i){ file.copy(from = files.df$old_path[i], to = files.df$new_path[i]) })
 
-  #saving key file
-  if(file.exists(paste(key.dir, key.name, sep = filesep))){#NB - I don't think this is even possible as long as the whole directory is being blinded at once, but keeping for later
-    base = sub("\\.(csv|CSV)", "", key.name)#start with base name
-
-    clash = TRUE
-    suffix = 1
-
-    while(clash == TRUE){
-      key.new = paste(base, suffix, sep = "_")
-      if(file.exists(paste(key.dir, key.new, sep = filesep))){
-        suffix = suffix + 1
-      }
-      else{
-        clash = FALSE
-      }
-    }
-
-    key.new = paste0(key.new, ".csv")
-
-    write.csv(files.df, file = paste(key.dir, key.new, sep = filesep))
-    warning(paste0("The file ", key.name, " already exists.  Key saved as ", key.new))
-  }
-  else{ write.csv(files.df, file = paste(key.dir, key.name, sep = filesep)) }
+  write.csv(files.df, file = paste(key.dir, key.name, sep = filesep))
 
 
 }
@@ -118,4 +96,39 @@ unblind <- function(target = NULL){
   )
 
 
+}
+
+
+
+
+
+#---INTERNAL METHODS---
+#' Appends underscore and increasing number to the end of a filename until there is no longer a clash
+#'
+#' @param base Initial file name, without extension
+#' @param ext File extension
+#' @param dir Directory path
+handleClash <- function(base, ext, dir){
+  file = paste(base, ext, sep = ".")
+  if(file.exists(paste(dir, file, sep = filesep))){
+
+    clash = TRUE
+    suffix = 1
+    new = ""
+
+    while(clash == TRUE){
+      new = paste0(base, "_", suffix, ".", ext)
+      if(file.exists(paste(dir, new, sep = filesep))){
+        suffix = suffix + 1
+      }
+      else{
+        clash = FALSE
+      }
+    }
+
+    final = new
+  }
+  else{ final = file }
+
+  return(final)
 }
