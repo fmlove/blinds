@@ -76,7 +76,7 @@ blind <- function(destination = NULL, input = NULL, key.name = "key.csv", key.di
 #' @param target The directory containing blinded files to restore.  If this is not provided, the user will be prompted for a directory.
 #'
 #' @export
-unblind <- function(target = NULL){
+unblind <- function(target = NULL, key.name = "key.csv"){
 
   filesep = .Platform$file.sep
   if(missing(target)){
@@ -88,7 +88,7 @@ unblind <- function(target = NULL){
     }
   }
 
-  key = read.csv(file = paste(target, 'key.csv', sep = filesep), stringsAsFactors = F) #TODO - account for multiple
+  key = read.csv(file = paste(target, key.name, sep = filesep), stringsAsFactors = F) #TODO - account for multiple
   sapply(1:nrow(key),
          function(i){
            file.rename(from = key$new_path[i], to = paste(target, key$original[i], sep = filesep));
