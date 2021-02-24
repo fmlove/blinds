@@ -74,9 +74,11 @@ blind <- function(destination = NULL, input = NULL, key.name = "key.csv", key.di
 #' Restore original file names.
 #'
 #' @param target The directory containing blinded files to restore.  If this is not provided, the user will be prompted for a directory.
+#' @param key.name Name of the CSV file containing the key of original and cryptic names.  Defaults to \code{key.csv}.
+#' @param key.dir Directory where the CSV key is saved.  If not provided, the target directory is assumed.
 #'
 #' @export
-unblind <- function(target = NULL, key.name = "key.csv"){
+unblind <- function(target = NULL, key.name = "key.csv", key.dir = NULL){
 
   filesep = .Platform$file.sep
   if(missing(target)){
@@ -88,7 +90,9 @@ unblind <- function(target = NULL, key.name = "key.csv"){
     }
   }
 
-  key = read.csv(file = paste(target, key.name, sep = filesep), stringsAsFactors = F) #TODO - account for multiple
+  if(missing(key.dir)){ key.dir = target }
+
+  key = read.csv(file = paste(key.dir, key.name, sep = filesep), stringsAsFactors = F) #TODO - account for multiple
   sapply(1:nrow(key),
          function(i){
            file.rename(from = key$new_path[i], to = paste(target, key$original[i], sep = filesep));
