@@ -16,3 +16,4 @@ handleClash(base, ext, dir)
 \description{
 Appends underscore and increasing number to the end of a filename until there is no longer a clash
 }
+\keyword{internal}

@@ -112,6 +112,8 @@ unblind <- function(target = NULL, key.name = "key.csv", key.dir = NULL){
 #' @param base Initial file name, without extension
 #' @param ext File extension
 #' @param dir Directory path
+#'
+#' @keywords internal
 handleClash <- function(base, ext, dir){
   file = paste(base, ext, sep = ".")
   if(file.exists(paste(dir, file, sep = filesep))){
