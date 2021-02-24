@@ -4,13 +4,17 @@
 \alias{blind}
 \title{Copy or rename files with cryptic names to facilitate blinded manual analysis.}
 \usage{
-blind(destination = NULL, input = NULL)
+blind(destination = NULL, input = NULL, key.name = "key.csv", key.dir = NULL)
 }
 \arguments{
 \item{destination}{If files are to be copied, the destination folder where the files and key will be saved.
 If this is not provided, the user will be prompted for a directory.}
 
 \item{input}{A vector of directory paths specifying where the files are located.}
+
+\item{key.name}{Name of the output CSV file containing the key of original and cryptic names.  Defaults to \code{key.csv}.}
+
+\item{key.dir}{Directory where the CSV key will be saved.  If not provided, the key will be saved in the same directory as the blinded files.}
 }
 \description{
 Copy or rename files with cryptic names to facilitate blinded manual analysis.

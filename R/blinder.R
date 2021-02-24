@@ -4,12 +4,14 @@
 #' @param destination If files are to be copied, the destination folder where the files and key will be saved.
 #' If this is not provided, the user will be prompted for a directory.
 #' @param input A vector of directory paths specifying where the files are located.
+#' @param key.name Name of the output CSV file containing the key of original and cryptic names.  Defaults to \code{key.csv}.
+#' @param key.dir Directory where the CSV key will be saved.  If not provided, the key will be saved in the same directory as the blinded files.
 #'
 #' @export
 #'
 #' @importFrom uuid UUIDgenerate
 #' @importFrom tools file_ext
-blind <- function(destination = NULL, input = NULL){
+blind <- function(destination = NULL, input = NULL, key.name = "key.csv", key.dir = NULL){
 
   filesep = .Platform$file.sep
 
@@ -44,7 +46,11 @@ blind <- function(destination = NULL, input = NULL){
     dirs = input
   }
 
+  if(missing(key.dir)){ key.dir = destination }
 
+
+
+  #generating UUIDs and assembling key
   files = unlist(lapply(dirs, function(d){ list.files(d) }))
 
   files.df = data.frame(original = files)
@@ -55,9 +61,12 @@ blind <- function(destination = NULL, input = NULL){
   files.df$old_path = paste(files.df$dir, files.df$original, sep = filesep)
   files.df$new_path = paste(destination, files.df$new, sep = filesep)
 
-
+  #file handling
   sapply(1:nrow(files.df), function(i){ file.copy(from = files.df$old_path[i], to = files.df$new_path[i]) })
-  write.csv(files.df, file = paste(destination, 'key.csv', sep = filesep)) #TODO - account fotr folder with existing key.csv - automatc increment and argument to specify
+
+  write.csv(files.df, file = paste(key.dir, key.name, sep = filesep))
+
+
 }
 
 
@@ -65,9 +74,11 @@ blind <- function(destination = NULL, input = NULL){
 #' Restore original file names.
 #'
 #' @param target The directory containing blinded files to restore.  If this is not provided, the user will be prompted for a directory.
+#' @param key.name Name of the CSV file containing the key of original and cryptic names.  Defaults to \code{key.csv}.
+#' @param key.dir Directory where the CSV key is saved.  If not provided, the target directory is assumed.
 #'
 #' @export
-unblind <- function(target = NULL){
+unblind <- function(target = NULL, key.name = "key.csv", key.dir = NULL){
 
   filesep = .Platform$file.sep
   if(missing(target)){
@@ -79,7 +90,9 @@ unblind <- function(target = NULL){
     }
   }
 
-  key = read.csv(file = paste(target, 'key.csv', sep = filesep), stringsAsFactors = F) #TODO - account for multiple
+  if(missing(key.dir)){ key.dir = target }
+
+  key = read.csv(file = paste(key.dir, key.name, sep = filesep), stringsAsFactors = F) #TODO - account for multiple
   sapply(1:nrow(key),
          function(i){
            file.rename(from = key$new_path[i], to = paste(target, key$original[i], sep = filesep));
@@ -87,4 +100,39 @@ unblind <- function(target = NULL){
   )
 
 
+}
+
+
+
+
+
+#---INTERNAL METHODS---
+#' Appends underscore and increasing number to the end of a filename until there is no longer a clash
+#'
+#' @param base Initial file name, without extension
+#' @param ext File extension
+#' @param dir Directory path
+handleClash <- function(base, ext, dir){
+  file = paste(base, ext, sep = ".")
+  if(file.exists(paste(dir, file, sep = filesep))){
+
+    clash = TRUE
+    suffix = 1
+    new = ""
+
+    while(clash == TRUE){
+      new = paste0(base, "_", suffix, ".", ext)
+      if(file.exists(paste(dir, new, sep = filesep))){
+        suffix = suffix + 1
+      }
+      else{
+        clash = FALSE
+      }
+    }
+
+    final = new
+  }
+  else{ final = file }
+
+  return(final)
 }
