@@ -4,10 +4,14 @@
 \alias{unblind}
 \title{Restore original file names.}
 \usage{
-unblind(target = NULL)
+unblind(target = NULL, key.name = "key.csv", key.dir = NULL)
 }
 \arguments{
 \item{target}{The directory containing blinded files to restore.  If this is not provided, the user will be prompted for a directory.}
+
+\item{key.name}{Name of the CSV file containing the key of original and cryptic names.  Defaults to \code{key.csv}.}
+
+\item{key.dir}{Directory where the CSV key is saved.  If not provided, the target directory is assumed.}
 }
 \description{
 Restore original file names.
