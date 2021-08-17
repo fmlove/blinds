@@ -80,7 +80,7 @@ blind <- function(destination = NULL, input = NULL, key.name = "key.csv", key.di
 #'
 #' @export
 #'
-#' importFrom stringr str_detect
+#' @importFrom stringr str_detect
 unblind <- function(target = NULL, key.name = "key.csv", key.dir = NULL, rename.new = TRUE){
 
   filesep = .Platform$file.sep
