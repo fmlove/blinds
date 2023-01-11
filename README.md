@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/252126544.svg)](https://zenodo.org/badge/latestdoi/252126544)
+
 # blinds
 An R package to blind files for manual analysis tasks
 
